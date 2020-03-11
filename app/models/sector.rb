@@ -1,4 +1,5 @@
 class Sector < ApplicationRecord
+  has_many :emissions
   has_many :sectors, class_name: 'Sector',
                      foreign_key: 'parent_sector_id'
 
