@@ -7,11 +7,13 @@ namespace :emissions do
     countries = CountryCreator.create_list(csv['Country'].uniq)
     sectors = SectorCreator.create_list(csv['Sector'].uniq)
 
-    CSV.foreach('emissions.csv', headers: true) do |row|
+    CSV.foreach('storage/emissions.csv', headers: true) do |row|
       SectorCreator.parent_sector(row)
-      EmissionCreator.create(countries[row['Country']],
-                             sectors[row['Sector']],
-                             row)
+      parsed_data = EmissionCreator.parse_data(countries[row['Country']],
+                                               sectors[row['Sector']],
+                                               row)
+
+      EmissionCreator.create(parsed_data)
     end
   end
 end

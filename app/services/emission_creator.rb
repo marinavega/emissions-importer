@@ -1,16 +1,16 @@
 class EmissionCreator
-  def self.create(country, sector, row)
-    Emission.where(country_id: country,
-                   sector_id: sector)
-            .first_or_create(parse_data(country, sector, row))
-            .update(parse_data(country, sector, row))
+  def self.create(parsed_data)
+    Emission.where(country_id: parsed_data[:country_id],
+                   sector_id: parsed_data[:sector_id])
+            .first_or_create(parsed_data)
+            .update(parsed_data)
   end
 
-  def self.parse_data(country, sector, row)
+  def self.parse_data(country, sector, values)
     {
       country_id: country,
       sector_id: sector,
-      data: emission_data(row)
+      data: emission_data(values)
     }
   end
 
